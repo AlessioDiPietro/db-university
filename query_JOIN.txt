@@ -1,0 +1,37 @@
+
+Query con JOIN
+1. Selezionare tutti gli studenti iscritti al Corso di Laurea in Economia
+
+SELECT `students`.`name`, `students`.`surname`,  `students`.`id`
+FROM `students`
+JOIN `degrees`
+ON `degrees`.`id` = `students`.`degree_id`
+WHERE `degrees`.`name` = 'Corso di Laurea in Economia';
+
+2. Selezionare tutti i Corsi di Laurea del Dipartimento di Neuroscienze
+
+SELECT `degrees`.`name`, `degrees`.`level`, `degrees`.`email`, `degrees`.`website`
+FROM `degrees`
+JOIN `departments`
+ON `degrees`.`department_id` = `departments`.`id`
+WHERE `departments`.`name`= 'Dipartimento di Neuroscienze' ;
+
+3. Selezionare tutti i corsi in cui insegna Fulvio Amato (id=44)
+
+SELECT `courses`.`name`
+FROM `course_teacher`
+JOIN `teachers`
+ON `course_teacher`.`teacher_id`=`teachers`.`id`
+JOIN `courses`
+ON `course_teacher`.`course_id` = `courses`.`id`
+WHERE `teachers`.`id`= 44
+
+4. BONUS: Selezionare per ogni studente quanti tentativi d’esame ha sostenuto per superare ciascuno dei suoi esami
+
+SELECT COUNT(`students`.`id`)
+FROM `students`
+JOIN `exam_student`
+ON `exam_student`.`student_id` = `students`.`id`
+JOIN `exams`
+ON `exams`.`id` =`exam_student`.`exam_id`
+WHERE  `exam_student`.`vote` < 18 GROUP BY `students`.`id`
